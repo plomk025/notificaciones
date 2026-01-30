@@ -148,19 +148,19 @@ def send_to_all():
         
         # Obtener todos los tokens
         users_ref = db.collection('usuarios_registrados')
-        users = users_ref.where('fcmToken', '!=', None).stream()
+        users = users_ref.where('userId', '!=', None).stream()
         
         tokens = []
         for user in users:
             user_data = user.to_dict()
-            fcm_token = user_data.get('fcmToken')
+            fcm_token = user_data.get('userId')
             if fcm_token:
                 tokens.append(fcm_token)
         
         if not tokens:
-            return jsonify({'error': 'No hay usuarios con tokens FCM'}), 400
+            return jsonify({'error': 'No hay usuarios con usuarios'}), 400
         
-        print(f'📱 Total de tokens: {len(tokens)}')
+        print(f'📱 Total de usuarios: {len(tokens)}')
         
         # Enviar en lotes de 500
         batch_size = 500
